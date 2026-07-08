@@ -1,0 +1,27 @@
+[
+  {
+    "name": "valora",
+    "hostName": "*",
+    "language": "en"
+  },
+  {
+    "name": "skate-park",
+    "hostName": "*",
+    "language": "en"
+  },
+  {
+    "name": "events",
+    "hostName": "*",
+    "language": "en"
+  },
+  {
+    "name": "valora",
+    "hostName": "*",
+    "language": "en"
+  },
+  {
+    "name": "healthcareshared",
+    "hostName": "*",
+    "language": "en"
+  }
+]

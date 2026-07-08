@@ -1,0 +1,8 @@
+{
+  "packages": {
+    "@sitecore-content-sdk/core": "2.0.2",
+    "@sitecore-content-sdk/nextjs": "2.0.2",
+    "@sitecore-content-sdk/react": "2.0.2",
+    "@sitecore-content-sdk/search": "0.2.1"
+  }
+}

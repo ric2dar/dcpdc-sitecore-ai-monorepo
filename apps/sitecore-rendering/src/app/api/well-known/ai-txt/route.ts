@@ -57,10 +57,12 @@ function resolveSiteUrl(request: NextRequest): string {
   }
 
   const defaultSite = sites?.[0];
-  if (defaultSite?.hostName) {
-    return `https://${defaultSite.hostName}`;
+  //if (defaultSite?.hostName) {
+  //return `https://${defaultSite.hostName}`;
+  //}
+  if ((defaultSite as any)?.hostName) {
+    return `https://${(defaultSite as any).hostName}`;
   }
-
   return request.nextUrl.origin;
 }
 
