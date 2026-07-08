@@ -1,0 +1,24 @@
+name: Setup Nexus NPM Registry
+description: Configures .npmrc to authenticate with the internal Nexus npm registry
+
+inputs:
+  nexus-npm-auth:
+    description: Base64-encoded username:password for the Nexus npm registry
+    required: true
+  registry-url:
+    description: Nexus npm registry URL (e.g. https://nexus.example.com/repository/npm-group/)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Write .npmrc for Nexus registry
+      shell: bash
+      env:
+        REGISTRY_URL: ${{ inputs.registry-url }}
+        NEXUS_AUTH: ${{ inputs.nexus-npm-auth }}
+      run: |
+        echo "registry=${REGISTRY_URL}" > ~/.npmrc
+        echo "always-auth=true" >> ~/.npmrc
+        echo "//${REGISTRY_URL#*//}:_auth=${NEXUS_AUTH}" >> ~/.npmrc
+        cp ~/.npmrc ./.npmrc

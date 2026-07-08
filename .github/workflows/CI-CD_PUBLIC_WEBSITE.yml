@@ -1,0 +1,82 @@
+name: CI-CD - PUBLIC WEBSITE
+permissions:
+  # Required because the called build/deploy reusable workflows upload and download artifacts.
+  actions: write
+  contents: read
+    
+on: 
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - .github/workflows/CI-CD_PUBLIC_WEBSITE.yml
+      - .github/workflows/build_NextJs.yml
+      - .github/workflows/deploy_vercel.yml
+      - 'apps/sitecore-rendering/**'
+      - 'apps/storybook/**'
+      - 'packages/ui/**'
+      - 'vercel.json'
+      - 'package.json'
+      - 'package-lock.json'
+
+jobs:
+  build-public-site:
+    uses: ./.github/workflows/build_NextJs.yml
+    with:
+      workingDirectory: .
+      artifactName: public-website-prebuilt
+      environment: dev
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      NEXUS_NPM_AUTH: ${{ secrets.NEXUS_NPM_AUTH }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.RENDERING_VERCEL_PROJECT_ID }}
+
+  deploy-public-site:
+    uses: ./.github/workflows/deploy_vercel.yml
+    needs: build-public-site
+    if: needs.build-public-site.result == 'success'
+    with:
+      artifactName: public-website-prebuilt
+      environment: dev
+    secrets:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.RENDERING_VERCEL_PROJECT_ID }}
+
+  deploy-storybook:
+    name: Build and deploy Storybook to Vercel
+    runs-on: [ self-hosted-ubuntu ]
+    container:
+    #update image
+      image: ""
+      credentials:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    environment: storybook
+    env:
+      VERCEL_TELEMETRY_DISABLED: 1
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.STORYBOOK_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js with Nexus NPM registry
+        uses: ./.github/actions/setup-node-nexus
+        with:
+          nexus-npm-auth: ${{ secrets.NEXUS_NPM_AUTH }}
+          registry-url: ${{ vars.NEXUS_NPM_REGISTRY }}
+      - name: Install dependencies
+        run: npm install
+      - name: Install Vercel CLI
+        run: npm install -g vercel@50.26.1
+      - name: Build Storybook
+        run: npm run build --workspace=apps/storybook
+      - name: Prepare Vercel prebuilt output
+        run: |
+          mkdir -p .vercel/output/static
+          cp -r apps/storybook/storybook-static/* .vercel/output/static/
+          echo '{"version":3}' > .vercel/output/config.json
+      - name: Deploy Storybook to Vercel
+        run: vercel deploy --prebuilt --prod --yes --token=${{ secrets.VERCEL_TOKEN }}

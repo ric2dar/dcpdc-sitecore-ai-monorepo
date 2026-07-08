@@ -1,0 +1,57 @@
+name: CI-CD - PUBLIC WEBSITE EDITING HOST (PROD)
+permissions:
+  # Required because the called build/deploy reusable workflows upload and download artifacts.
+  actions: write
+  contents: read
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ prod ]
+    paths:
+      - .github/workflows/CI-CD_PUBLIC_WEBSITE_EDITING_PROD.yml
+      - .github/workflows/build_NextJs.yml
+      - .github/workflows/deploy_vercel.yml
+      - 'apps/sitecore-rendering/**'
+      - 'apps/storybook/**'
+      - 'packages/ui/**'
+      - 'vercel.json'
+      - 'package.json'
+      - 'package-lock.json'
+
+jobs:
+  build-editing-site:
+    uses: ./.github/workflows/build_NextJs.yml
+    with:
+      workingDirectory: .
+      artifactName: editing-website-prebuilt-prod
+      environment: production
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      NEXUS_NPM_AUTH: ${{ secrets.NEXUS_NPM_AUTH }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.EDITING_VERCEL_PROJECT_ID }}
+
+  approve-deployment:
+    name: Await approval to deploy editing host to Prod
+    runs-on: ubuntu-latest
+    needs: build-editing-site
+    if: needs.build-editing-site.result == 'success'
+    environment: production
+    steps:
+      - name: Deployment approved
+        run: echo "Deployment of editing host to Prod environment approved"
+
+  deploy-editing-site:
+    uses: ./.github/workflows/deploy_vercel.yml
+    needs: approve-deployment
+    if: needs.approve-deployment.result == 'success'
+    with:
+      artifactName: editing-website-prebuilt-prod
+      environment: production
+    secrets:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.EDITING_VERCEL_PROJECT_ID }}

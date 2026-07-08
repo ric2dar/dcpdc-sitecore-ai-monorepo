@@ -1,0 +1,22 @@
+// Illustrated Icons from Signature X Design System
+export {
+  IllustratedIcon,
+  type IllustratedIconProps,
+  type IllustratedIconName,
+  type IllustratedIconSize,
+  PeopleIcons,
+  HandIcons,
+  HeadIcons,
+  TechnologyIcons,
+  CommunicationIcons,
+  NatureIcons,
+  DocumentIcons,
+  FinanceIcons,
+  HealthIcons,
+  WellnessIcons,
+  ToolsIcons,
+  BusinessIcons,
+  NavigationIcons,
+  OtherIcons,
+  AllIllustratedIcons,
+} from "./illustrated-icons";

@@ -1,0 +1,64 @@
+name: Deploy Next.js app to Vercel
+permissions:
+  # Required for actions/download-artifact in this reusable workflow.
+  actions: read
+  contents: read
+  
+on:
+  workflow_call:
+    inputs:
+      artifactName:
+        required: true
+        type: string
+      environment:
+        required: false
+        type: string
+        default: production
+        description: "Vercel target environment (e.g. production, preview, dev or test)"
+    secrets:
+      VERCEL_TOKEN:
+        required: true
+      VERCEL_ORG_ID:
+        required: true
+      VERCEL_PROJECT_ID:
+        required: true
+    
+jobs:
+  deploy:
+    name: Deploy the rendering or editing host to Vercel
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_TELEMETRY_DISABLED: 1
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Install dependencies
+        run: npm install
+      - name: Install Vercel CLI
+        run: npm install -g vercel@50.26.1
+      - name: Download prebuilt artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifactName }}
+          path: .
+      - name: List deployed files and directories
+        run: |
+          echo "=== Contents of .vercel/output ==="
+          ls -la .vercel/output/
+          echo ""
+          echo "=== Full directory structure ==="
+          find .vercel/output -type f | head -30
+          echo "=== Contents of apps/sitecore-rendering/.sitecore ==="
+          ls -la apps/sitecore-rendering/.sitecore
+          echo ""
+          echo "=== Full .sitecore directory structure ==="
+          find apps/sitecore-rendering/.sitecore -type f | head -30
+
+      - name: Deploy prebuilt output to Vercel
+        run: vercel deploy --prebuilt ${{ inputs.environment == 'production' && '--prod' || format('--target={0}', inputs.environment) }} --yes --token=${{ secrets.VERCEL_TOKEN }}

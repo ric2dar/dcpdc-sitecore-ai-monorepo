@@ -1,0 +1,9 @@
+# Ensure node/npm are available (VS Code spawns git with a minimal PATH)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+# Regenerate Sitecore component maps to ensure they're up to date
+cd apps/sitecore-rendering && npm run sitecore-tools:generate-map
+
+# Stage the regenerated files if they changed
+git add apps/sitecore-rendering/.sitecore/component-map.ts apps/sitecore-rendering/.sitecore/import-map.ts 2>/dev/null || true

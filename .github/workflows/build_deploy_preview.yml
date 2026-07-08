@@ -1,0 +1,200 @@
+name: Build and Deploy Preview to Vercel
+
+on:
+  workflow_call:
+    secrets:
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
+      NEXUS_NPM_AUTH:
+        required: true
+      SITECORE_EDGE_CONTEXT_ID:
+        required: true
+      VERCEL_TOKEN:
+        required: true
+      VERCEL_ORG_ID:
+        required: true
+      VERCEL_PROJECT_ID:
+        required: true
+      VERCEL_PROTECTION_BYPASS:
+        required: false
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  build-and-deploy-preview:
+    name: Build and deploy preview to Vercel
+    runs-on: [ self-hosted-ubuntu ]
+    container:
+      #update image
+      image: ""
+      credentials:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    env:
+      GENERATE_STATIC_PATHS: false
+      VERCEL_TELEMETRY_DISABLED: 1
+      SITECORE_EDGE_CONTEXT_ID: ${{ secrets.SITECORE_EDGE_CONTEXT_ID }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_PROTECTION_BYPASS: ${{ secrets.VERCEL_PROTECTION_BYPASS }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js with Nexus NPM registry
+        uses: ./.github/actions/setup-node-nexus
+        with:
+          nexus-npm-auth: ${{ secrets.NEXUS_NPM_AUTH }}
+          registry-url: ${{ vars.NEXUS_NPM_REGISTRY }}
+      - name: Cache Next.js build artifacts
+        uses: actions/cache@v4
+        with:
+          path: apps/sitecore-rendering/.next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('package-lock.json', 'apps/sitecore-rendering/package.json') }}
+          restore-keys: |
+            nextjs-${{ runner.os }}-
+      - name: Install Vercel CLI
+        id: install-vercel
+        run: npm install -g vercel@50.26.1
+      - name: Pull Vercel project settings
+        id: vercel-pull
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Vercel prebuilt output
+        id: vercel-build
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy preview to Vercel
+        id: deploy
+        run: |
+          DEPLOY_URL=$(vercel deploy --prebuilt --yes --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
+      - name: Verify preview URL returns HTTP 200
+        id: verify-preview
+        run: |
+          DEPLOY_URL="${{ steps.deploy.outputs.url }}"
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "Deploy URL is empty"
+            exit 1
+          fi
+
+          # Allow the preview environment to warm up before failing the workflow.
+          for i in 1 2 3 4 5; do
+            if [ -n "$VERCEL_PROTECTION_BYPASS" ]; then
+              STATUS_CODE=$(curl -L --silent --show-error --output /dev/null --write-out "%{http_code}" -H "x-vercel-protection-bypass: $VERCEL_PROTECTION_BYPASS" "$DEPLOY_URL")
+            else
+              STATUS_CODE=$(curl -L --silent --show-error --output /dev/null --write-out "%{http_code}" "$DEPLOY_URL")
+            fi
+            if [ "$STATUS_CODE" = "200" ]; then
+              echo "Preview check passed with HTTP 200"
+              exit 0
+            fi
+            echo "Attempt $i: received HTTP $STATUS_CODE from $DEPLOY_URL"
+            sleep 10
+          done
+
+          echo "Preview check failed: expected HTTP 200"
+          exit 1
+        env:
+          VERCEL_PROTECTION_BYPASS: ${{ secrets.VERCEL_PROTECTION_BYPASS }}
+      - name: Comment preview URL on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        continue-on-error: true
+        with:
+          script: |
+            const deployUrl = process.env.DEPLOY_URL;
+            const sha = context.sha.substring(0, 7);
+            const shaUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/commit/${context.sha}`;
+            const branch = context.payload.pull_request.head.ref;
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const timestamp = new Date().toUTCString();
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes('Vercel Preview Deployment')
+            );
+            const status = existing ? '🔄 Updated' : '🚀 New';
+            const body = [
+              `### ${status} — Vercel Preview Deployment`,
+              ``,
+              `| | |`,
+              `|---|---|`,
+              `| **Preview URL** | [${deployUrl}](${deployUrl}) |`,
+              `| **Branch** | \`${branch}\` |`,
+              `| **Commit** | [\`${sha}\`](${shaUrl}) |`,
+              `| **Build logs** | [View run](${runUrl}) |`,
+              `| **Last updated** | ${timestamp} |`,
+            ].join('\n');
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
+        env:
+          DEPLOY_URL: ${{ steps.deploy.outputs.url }}
+      - name: Comment build failure on PR
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        continue-on-error: true
+        with:
+          script: |
+            const sha = context.sha.substring(0, 7);
+            const shaUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/commit/${context.sha}`;
+            const branch = context.payload.pull_request.head.ref;
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const timestamp = new Date().toUTCString();
+            const failedStep =
+              '${{ steps.install-vercel.outcome }}' === 'failure' ? 'Install Vercel CLI' :
+              '${{ steps.vercel-pull.outcome }}' === 'failure' ? 'Pull Vercel project settings' :
+              '${{ steps.vercel-build.outcome }}' === 'failure' ? 'Build Vercel prebuilt output' :
+              '${{ steps.deploy.outcome }}' === 'failure' ? 'Deploy preview to Vercel' :
+              '${{ steps.verify-preview.outcome }}' === 'failure' ? 'Verify preview URL returns HTTP 200' :
+              'Unknown step';
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes('Vercel Preview Deployment')
+            );
+            const body = [
+              `### ❌ Vercel Preview Deployment Failed`,
+              ``,
+              `| | |`,
+              `|---|---|`,
+              `| **Failed step** | ${failedStep} |`,
+              `| **Branch** | \`${branch}\` |`,
+              `| **Commit** | [\`${sha}\`](${shaUrl}) |`,
+              `| **Build logs** | [View run](${runUrl}) |`,
+              `| **Time** | ${timestamp} |`,
+            ].join('\n');
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }

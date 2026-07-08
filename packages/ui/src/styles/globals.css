@@ -1,0 +1,1705 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+@import "tailwindcss";
+@source "../../../apps/**/*.{ts,tsx}";
+@source "../../../components/**/*.{ts,tsx}";
+@source "../**/*.{ts,tsx}";
+
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Signature X Design System - Colors */
+  --background: #ffffff;
+  --foreground: #323539;
+  --card: #ffffff;
+  --card-foreground: #323539;
+  --popover: #ffffff;
+  --popover-foreground: #323539;
+
+  /* Primary - Blue */
+  --primary: #003e8f;
+  --primary-foreground: #ffffff;
+
+  /* Secondary - Neutral */
+  --secondary: #fafbfc;
+  --secondary-foreground: #323539;
+
+  /* Muted - Neutral */
+  --muted: #eaebf0;
+  --muted-foreground: #6e7581;
+
+  /* Accent - Green */
+  --accent: #f2fbee;
+  --accent-foreground: #39851e;
+
+  /* Destructive */
+  --destructive: #f44336;
+  --destructive-foreground: #ffffff;
+
+  /* Borders & Inputs */
+  --border: #dddfe4;
+  --input: #dddfe4;
+  --ring: #003e8f;
+
+  /* Chart colors */
+  --chart-1: #003e8f;
+  --chart-2: #39851e;
+  --chart-3: #f5b81c;
+  --chart-4: #c5ebb7;
+  --chart-5: #6e7581;
+
+  /* Border Radius - from Figma Design System */
+  --radius-none: 0;
+  --radius-sm: 0.25rem; /* 4px - rounded-sm */
+  --radius: 0.5rem; /* 8px - rounded-md (default) */
+  --radius-md: 0.5rem; /* 8px - rounded-md */
+  --radius-lg: 0.875rem; /* 14px - rounded-lg */
+  --radius-xl: 1rem; /* 16px - rounded-xl */
+  --radius-18: 1.125rem; /* 18px - rounded-corner-18 */
+  --radius-2xl: 1.5rem; /* 24px - rounded-2xl */
+  --radius-3xl: 2rem; /* 32px */
+  --radius-full: 9999px; /* Full round / pill shape */
+
+  /* Sidebar */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #323539;
+  --sidebar-primary: #003e8f;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f2fbee;
+  --sidebar-accent-foreground: #39851e;
+  --sidebar-border: #dddfe4;
+  --sidebar-ring: #003e8f;
+
+  /* Typography - Font Families */
+  /* Primary: Source Sans 3 - Modern variable font for all headings, body text, and UI elements */
+  --font-sans: "Source Sans 3", ui-sans-serif, sans-serif, system-ui;
+
+  /* Typography - Font Weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Typography - Font Sizes */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-md: 0.9375rem; /* 15px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem; /* 36px */
+  --text-5xl: 3rem; /* 48px */
+  --text-6xl: 3.75rem; /* 60px */
+
+  /* Typography - Headline Sizes */
+  --headline-xxs: 1.25rem; /* 20px */
+  --headline-sm: 1.75rem; /* 28px */
+  --headline-md: 1.875rem; /* 30px */
+  --headline-xl: 2.5rem; /* 40px */
+
+  /* Typography - Line Heights */
+  --leading-xs: 1rem; /* 16px */
+  --leading-sm: 1rem; /* 16px */
+  --leading-base: 1.5rem; /* 24px */
+  --leading-lg: 1.75rem; /* 28px */
+  --leading-xl: 1.75rem; /* 28px */
+  --leading-4xl: 2.5rem; /* 40px */
+  --leading-headline: 1.2; /* 120% */
+  --leading-body: 1.5; /* 150% */
+
+  /* Semantic Colors */
+  --info: #003e8f;
+  --warn: #f5b81c;
+  --success: #39851e;
+
+  /* Design System - Extended Palette */
+  --primary-blue-300: #7db5ff;
+  --primary-blue-500: #006af5;
+  --primary-blue-700: #0059cc;
+  --primary-blue-800: #003e8f;
+  --ui-red-600: #db3a24;
+  --ui-red-700: #c2321e;
+  --secondary-purple-800: #5720b7;
+  --secondary-purple-300: #c3b4fd;
+  --secondary-purple-50: #f5f3ff;
+  --orange-600: #f58021;
+  --orange-700: #c06010;
+  --grey-700: #323539;
+  --grey-50: #6e7581;
+  --ui-green-800: #39851e;
+  --ui-green-300: #c5ebb7;
+  --ui-green-50: #f2fbee;
+  --ui-yellow-600: #f5b81c;
+  --neutral-50: #fafbfc;
+  --neutral-600: #eaebf0;
+  --neutral-700: #dddfe4;
+  --base-white: #ffffff;
+  --base-black: #000000;
+  --base-background: #FFFFFF;
+  --base-foreground: #002f6b;
+  --base-secondary-foreground: var(--orange-600);
+  --base-muted-foreground: #334155;
+  --base-muted: #e2e8f0;
+  --base-muted-background: #f8f9fb;
+  --base-border: #cbd5e1;
+  --base-hover: #ebf3ff;
+  --background-brand-subtle: #ebf3ff;
+  --ui-yellow-500: #ffb900;
+  --secondary-burgundy-700: #a32858;
+  --secondary-burgundy-800: #8d2048;
+  --background-brand-dark: var(--base-foreground);
+
+  /* Callout Variant Colors - from Figma Design System */
+  --callout-default-bg: #FFFFFF;
+  --callout-default-border: #CBD5E1;
+  --callout-default-icon: #6E7581;
+  --callout-info-bg: #EBF3FF;
+  --callout-info-border: #006AF5;
+  --callout-info-icon: #006AF5;
+  --callout-warning-bg: #FFFBEB;
+  --callout-warning-border: #F59E0B;
+  --callout-warning-icon: #F59E0B;
+  --callout-destructive-bg: #FCEFED;
+  --callout-destructive-border: #DB3A24;
+  --callout-destructive-icon: #DB3A24;
+  --callout-worker-bg: #FFF4EB;
+  --callout-worker-border: #F58021;
+  --callout-worker-icon: #F58021;
+  --callout-employer-bg: #F0F9F8;
+  --callout-employer-border: #50C1AC;
+  --callout-employer-icon: #50C1AC;
+  --callout-provider-bg: #F5F3FF;
+  --callout-provider-border: #7839EE;
+  --callout-provider-icon: #7839EE;
+
+  /* Spacing - from Figma */
+  --spacing-1: 0.25rem; /* 4px */
+  --spacing-2: 0.5rem; /* 8px */
+  --spacing-3: 0.75rem; /* 12px */
+  --spacing-4: 1rem; /* 16px */
+  --spacing-5: 1.25rem; /* 20px */
+  --spacing-6: 1.5rem; /* 24px */
+  --spacing-7: 1.75rem; /* 28px */
+  --spacing-8: 2rem; /* 32px */
+  --spacing-12: 3rem; /* 48px */
+  --spacing-16: 4rem; /* 64px */
+  --spacing-24: 6rem; /* 96px */
+  --spacing-32: 8rem; /* 128px */
+
+  /* Layout - Max/Min Widths */
+  --max-w-7xl: 80rem; /* 1280px */
+  --max-w-xl: 36rem; /* 576px */
+  --max-w-full: 100%;
+  --min-w-7xl: 80rem; /* 1280px */
+
+  /* Layout - Container */
+  --container-padding-x: 1rem; /* 16px */
+  --container-padding-y: 2rem; /* 32px */
+  --container-max-width: 80rem; /* 1280px */
+
+  /* Layout - Full-Width Template (from Figma: 2925:10256, 2925:10165, 2925:10216) */
+  --full-width-content-max-lg: 49.625rem; /* 794px — tablet content width */
+  --full-width-content-max-xl: 56.5rem; /* 904px — desktop content width */
+  --full-width-content-padding: 1.5rem; /* 24px — mobile side gutters */
+
+  /* Layout - Heights */
+  --h-10: 2.5rem; /* 40px */
+
+  /* Layout - Breakpoints */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  --breakpoint-nav-desktop: 1312px;
+
+  /* Shadows - from Figma Design System */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md:
+    0 2px 4px -2px rgba(0, 0, 0, 0.1), 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg:
+    0 4px 6px -4px rgba(0, 0, 0, 0.1), 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  /* Opacity */
+  --opacity-60: 0.6;
+
+  /* Alpha/Opacity */
+  --alpha-30: rgba(255, 255, 255, 0.7);
+  --alpha-50: rgba(255, 255, 255, 0.5);
+  --alpha-60: rgba(255, 255, 255, 0.4);
+
+  /* Burjeel Medical City - Brand Colors */
+  --bs-primary: #071F3D;
+  --bs-primary-hover: #1A3350;
+  --bs-primary-rgb: 7, 31, 61;
+  --bs-secondary: #00A9B1;
+  --bs-secondary-hover: #00C9D3;
+  --bs-secondary-rgb: 0, 169, 177;
+  --bs-light-blue: #F4FBFD;
+  --bs-body-bg: #FFFFFF;
+  --bs-body-color: #000000;
+
+  /* Burjeel Medical City - Typography */
+  --font-montserrat: "Montserrat", sans-serif;
+
+  /* Burjeel Medical City - Shadows */
+  --bs-header-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+}
+
+.dark {
+  /* Dark Mode - derived from design system */
+  --background: #1a1a1a;
+  --foreground: #fafbfc;
+  --card: #1a1a1a;
+  --card-foreground: #fafbfc;
+  --popover: #1a1a1a;
+  --popover-foreground: #fafbfc;
+  --primary: #4a90d9;
+  --primary-foreground: #ffffff;
+  --secondary: #2a2a2a;
+  --secondary-foreground: #fafbfc;
+  --muted: #2a2a2a;
+  --muted-foreground: #9ca3af;
+  --accent: #1a3a1a;
+  --accent-foreground: #c5ebb7;
+  --destructive: #f44336;
+  --destructive-foreground: #ffffff;
+  --border: #3a3a3a;
+  --input: #3a3a3a;
+  --ring: #4a90d9;
+  --chart-1: #4a90d9;
+  --chart-2: #5cb85c;
+  --chart-3: #f5b81c;
+  --chart-4: #c5ebb7;
+  --chart-5: #9ca3af;
+  --sidebar: #1a1a1a;
+  --sidebar-foreground: #fafbfc;
+  --sidebar-primary: #4a90d9;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1a3a1a;
+  --sidebar-accent-foreground: #c5ebb7;
+  --sidebar-border: #3a3a3a;
+  --sidebar-ring: #4a90d9;
+  --base-background: #1a1a1a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Border Radius - from Figma Design System */
+  --radius-none: var(--radius-none);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius: var(--radius);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-18: var(--radius-18);
+  --radius-2xl: var(--radius-2xl);
+  --radius-3xl: var(--radius-3xl);
+  --radius-full: var(--radius-full);
+
+  /* Sidebar */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Design System - Extended Color Palette */
+  --color-primary-blue-300: var(--primary-blue-300);
+  --color-primary-blue-500: var(--primary-blue-500);
+  --color-primary-blue-700: var(--primary-blue-700);
+  --color-primary-blue-800: var(--primary-blue-800);
+  --color-ui-red-600: var(--ui-red-600);
+  --color-ui-red-700: var(--ui-red-700);
+  --color-secondary-purple-800: var(--secondary-purple-800);
+  --color-secondary-purple-300: var(--secondary-purple-300);
+  --color-secondary-purple-50: var(--secondary-purple-50);
+  --color-orange-600: var(--orange-600);
+  --color-orange-700: var(--orange-700);
+  --color-grey-700: var(--grey-700);
+  --color-grey-50: var(--grey-50);
+  --color-ui-green-800: var(--ui-green-800);
+  --color-ui-green-300: var(--ui-green-300);
+  --color-ui-green-50: var(--ui-green-50);
+  --color-ui-yellow-600: var(--ui-yellow-600);
+  --color-neutral-50: var(--neutral-50);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-700: var(--neutral-700);
+  --color-base-white: var(--base-white);
+  --color-base-black: var(--base-black);
+  --color-base-background: var(--base-background);
+  --color-base-foreground: var(--base-foreground);
+  --color-base-secondary-foreground: var(--base-secondary-foreground);
+  --color-base-muted-foreground: var(--base-muted-foreground);
+  --color-base-muted: var(--base-muted);
+  --color-base-border: var(--base-border);
+  --color-base-hover: var(--base-hover);
+  --color-background-brand-subtle: var(--background-brand-subtle);
+  --color-ui-yellow-500: var(--ui-yellow-500);
+  --color-secondary-burgundy-700: var(--secondary-burgundy-700);
+  --color-secondary-burgundy-800: var(--secondary-burgundy-800);
+  --color-background-brand-dark: var(--background-brand-dark);
+
+  /* Callout Variant Colors */
+  --color-callout-default-bg: var(--callout-default-bg);
+  --color-callout-default-border: var(--callout-default-border);
+  --color-callout-default-icon: var(--callout-default-icon);
+  --color-callout-info-bg: var(--callout-info-bg);
+  --color-callout-info-border: var(--callout-info-border);
+  --color-callout-info-icon: var(--callout-info-icon);
+  --color-callout-warning-bg: var(--callout-warning-bg);
+  --color-callout-warning-border: var(--callout-warning-border);
+  --color-callout-warning-icon: var(--callout-warning-icon);
+  --color-callout-destructive-bg: var(--callout-destructive-bg);
+  --color-callout-destructive-border: var(--callout-destructive-border);
+  --color-callout-destructive-icon: var(--callout-destructive-icon);
+  --color-callout-worker-bg: var(--callout-worker-bg);
+  --color-callout-worker-border: var(--callout-worker-border);
+  --color-callout-worker-icon: var(--callout-worker-icon);
+  --color-callout-employer-bg: var(--callout-employer-bg);
+  --color-callout-employer-border: var(--callout-employer-border);
+  --color-callout-employer-icon: var(--callout-employer-icon);
+  --color-callout-provider-bg: var(--callout-provider-bg);
+  --color-callout-provider-border: var(--callout-provider-border);
+  --color-callout-provider-icon: var(--callout-provider-icon);
+
+  /* Typography - Font Families */
+  --font-sans: var(--font-sans);
+
+  /* Typography - Font Sizes */
+  --text-xs: var(--text-xs);
+  --text-sm: var(--text-sm);
+  --text-md: var(--text-md);
+  --text-base: var(--text-base);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
+  --text-2xl: var(--text-2xl);
+  --text-3xl: var(--text-3xl);
+  --text-4xl: var(--text-4xl);
+  --text-5xl: var(--text-5xl);
+  --text-6xl: var(--text-6xl);
+  --text-headline-md: var(--headline-md);
+
+  /* Typography - Headline Sizes */
+  --headline-xxs: var(--headline-xxs);
+  --headline-sm: var(--headline-sm);
+  --headline-md: var(--headline-md);
+  --headline-xl: var(--headline-xl);
+
+  /* Typography - Line Heights */
+  --leading-xs: var(--leading-xs);
+  --leading-sm: var(--leading-sm);
+  --leading-base: var(--leading-base);
+  --leading-lg: var(--leading-lg);
+  --leading-xl: var(--leading-xl);
+  --leading-4xl: var(--leading-4xl);
+  --leading-headline: var(--leading-headline);
+  --leading-body: var(--leading-body);
+
+  /* Spacing */
+  --spacing-1: var(--spacing-1);
+  --spacing-2: var(--spacing-2);
+  --spacing-3: var(--spacing-3);
+  --spacing-4: var(--spacing-4);
+  --spacing-5: var(--spacing-5);
+  --spacing-6: var(--spacing-6);
+  --spacing-7: var(--spacing-7);
+  --spacing-8: var(--spacing-8);
+  --spacing-12: var(--spacing-12);
+  --spacing-16: var(--spacing-16);
+  --spacing-24: var(--spacing-24);
+  --spacing-32: var(--spacing-32);
+
+  /* Layout - Max/Min Widths */
+  --max-w-7xl: var(--max-w-7xl);
+  --max-w-xl: var(--max-w-xl);
+  --min-w-7xl: var(--min-w-7xl);
+
+  /* Layout - Heights */
+  --h-10: var(--h-10);
+
+  /* Layout - Breakpoints (literal values required for @media query generation) */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  /* Alpha/Opacity */
+  --alpha-30: var(--alpha-30);
+  --alpha-50: var(--alpha-50);
+  --alpha-60: var(--alpha-60);
+  --opacity-60: var(--opacity-60);
+
+  /* Shadows */
+  --shadow-xs: var(--shadow-xs);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+
+  /* Extended Colors */
+  --color-base-muted-background: var(--base-muted-background);
+
+  /* Semantic colors */
+  --color-info: var(--info);
+  --color-warn: var(--warn);
+  --color-success: var(--success);
+
+  /* Burjeel Medical City - Brand Colors */
+  --color-bs-primary: var(--bs-primary);
+  --color-bs-primary-hover: var(--bs-primary-hover);
+  --color-bs-secondary: var(--bs-secondary);
+  --color-bs-secondary-hover: var(--bs-secondary-hover);
+  --color-bs-light-blue: var(--bs-light-blue);
+  --color-bs-body-bg: var(--bs-body-bg);
+  --color-bs-body-color: var(--bs-body-color);
+
+  /* Burjeel Medical City - Typography */
+  --font-montserrat: var(--font-montserrat);
+
+  /* Burjeel Medical City - Shadows */
+  --shadow-header: var(--bs-header-shadow);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-size: var(--text-base);
+    line-height: var(--leading-body);
+  }
+}
+
+@layer base {
+  /* Signature X Typography - from Figma Design System */
+
+  /* text-4xl/leading-normal/bold - 36px/40px Bold */
+  h1 {
+    font-family: var(--font-sans);
+    font-size: var(--text-4xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--leading-4xl);
+    letter-spacing: 0;
+  }
+
+  /* headline-sm - 28px Semibold */
+  h2 {
+    font-family: var(--font-sans);
+    font-size: var(--headline-sm);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--leading-headline);
+    letter-spacing: -0.02em;
+  }
+
+  /* headline-xxs - 20px Bold */
+  h3 {
+    font-family: var(--font-sans);
+    font-size: var(--headline-xxs);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--leading-headline);
+    letter-spacing: -0.02em;
+  }
+
+  /* text-lg/leading-normal - 18px Normal */
+  h4 {
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--leading-lg);
+    letter-spacing: 0;
+  }
+
+  /* text-base/leading-normal - 16px */
+  p {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--leading-base);
+  }
+
+  /* text-sm/leading-normal - 14px */
+  small {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--leading-sm);
+  }
+
+  /* Code/monospace */
+  code,
+  pre {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-light);
+    line-height: var(--leading-xs);
+  }
+}
+
+/* Typography Utility Classes */
+@utility text-4xl-bold {
+  font-family: var(--font-sans);
+  font-size: var(--text-4xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-4xl);
+}
+
+@utility text-xl-semibold {
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-xl);
+}
+
+@utility text-xl-italic {
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-semibold);
+  font-style: italic;
+  line-height: var(--leading-lg);
+}
+
+@utility text-lg-normal {
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--leading-lg);
+}
+
+@utility text-base-normal {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--leading-base);
+}
+
+@utility text-base-medium {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--leading-base);
+}
+
+@utility text-base-semibold {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-base);
+}
+
+@utility text-base-bold {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-base);
+}
+
+@utility text-base-underlined {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--leading-base);
+  text-decoration: underline;
+}
+
+@utility text-sm-normal {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--leading-sm);
+}
+
+@utility text-sm-medium {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--leading-sm);
+}
+
+@utility text-xs-light {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-light);
+  line-height: var(--leading-xs);
+}
+
+@utility headline-xxs-bold {
+  font-family: var(--font-sans);
+  font-size: var(--headline-xxs);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-headline);
+  letter-spacing: -0.02em;
+}
+
+@utility headline-sm-semibold {
+  font-family: var(--font-sans);
+  font-size: var(--headline-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-headline);
+  letter-spacing: -0.02em;
+}
+
+@utility headline-xl-semibold {
+  font-family: var(--font-sans);
+  font-size: var(--headline-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-headline);
+  letter-spacing: -0.02em;
+}
+
+/* Layout Utility Classes */
+
+/* Container - max-width 1280px with responsive padding */
+@utility dcpdc-container {
+  max-width: var(--max-w-7xl);
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--container-padding-x);
+}
+
+/* Section wrapper */
+@utility section {
+  max-width: var(--max-w-7xl);
+  width: 100%;
+  padding: var(--spacing-4);
+}
+
+/* Page wrapper with muted background */
+@utility page-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  align-items: center;
+  width: 100%;
+  border-top: 0.5px solid var(--base-border);
+  border-bottom: 0.5px solid var(--base-border);
+}
+
+/* Content wrapper with subtle gradient background */
+@utility content-wrapper {
+  max-width: var(--max-w-7xl);
+  width: 100%;
+  padding: var(--spacing-4);
+  background:
+    linear-gradient(90deg, var(--alpha-60) 0%, var(--alpha-60) 100%),
+    linear-gradient(90deg, var(--base-muted) 0%, var(--base-muted) 100%);
+}
+
+/* Flex layouts */
+@utility flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@utility flex-col-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@utility flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@utility flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Gap utilities */
+@utility gap-section {
+  gap: var(--spacing-8);
+}
+
+@utility gap-card {
+  gap: var(--spacing-4);
+}
+
+@utility gap-item {
+  gap: var(--spacing-2);
+}
+
+/* Component spacing utility — opt-in responsive vertical padding for renderings */
+@utility component-spacing {
+  padding: var(--spacing-6) 0;
+
+  @media (min-width: 1024px) {
+    padding: var(--spacing-12) 0;
+  }
+}
+
+@utility overlap-above {
+  position: relative;
+  z-index: 10;
+  margin-top: -10rem;
+}
+
+/* Sticky table header — for the React Table component only.
+   RichText/CKEditor tables auto-apply sticky headers via the
+   .rich-text .ck-content rules below. Override --table-max-height
+   to control the scroll area height.                              */
+@utility table-sticky-header {
+  & [data-slot="table-wrapper"],
+  & figure.table {
+    max-height: var(--table-max-height, 400px);
+    overflow-y: auto;
+  }
+
+  & thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: var(--base-background, #FFFFFF);
+  }
+}
+
+/* Width utilities */
+@utility w-full-max-7xl {
+  width: 100%;
+  max-width: var(--max-w-7xl);
+}
+
+@utility w-full-max-xl {
+  width: 100%;
+  max-width: var(--max-w-xl);
+}
+
+/* Full-width template — responsive content area with side margins
+   Mobile:  24px side padding, full width
+   Tablet:  max-width 794px, centered (matches Figma 1024px frame)
+   Desktop: max-width 904px, centered (matches Figma 1512px frame) */
+@utility full-width-content {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--full-width-content-padding);
+
+  @media (min-width: theme(--breakpoint-lg)) {
+    max-width: var(--full-width-content-max-lg);
+    padding-inline: 0;
+  }
+
+  @media (min-width: theme(--breakpoint-xl)) {
+    max-width: var(--full-width-content-max-xl);
+  }
+}
+
+/* Corner/Border Radius Utilities - from Figma Design System */
+
+/* No rounding */
+@utility rounded-none {
+  border-radius: var(--radius-none);
+}
+
+/* Small - 4px */
+@utility rounded-sm {
+  border-radius: var(--radius-sm);
+}
+
+/* Medium - 8px (default) */
+@utility rounded-md {
+  border-radius: var(--radius-md);
+}
+
+/* Large - 14px */
+@utility rounded-lg {
+  border-radius: var(--radius-lg);
+}
+
+/* Extra Large - 16px */
+@utility rounded-xl {
+  border-radius: var(--radius-xl);
+}
+
+/* 18px - Special corner */
+@utility rounded-18 {
+  border-radius: var(--radius-18);
+}
+
+/* 2XL - 24px */
+@utility rounded-2xl {
+  border-radius: var(--radius-2xl);
+}
+
+/* 3XL - 24px */
+@utility rounded-3xl {
+  border-radius: var(--radius-3xl);
+}
+
+/* Full/Pill - 9999px */
+@utility rounded-full {
+  border-radius: var(--radius-full);
+}
+
+/* Individual corner utilities */
+@utility rounded-t-lg {
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+}
+
+@utility rounded-b-lg {
+  border-bottom-left-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
+}
+
+@utility rounded-t-xl {
+  border-top-left-radius: var(--radius-xl);
+  border-top-right-radius: var(--radius-xl);
+}
+
+@utility rounded-b-xl {
+  border-bottom-left-radius: var(--radius-xl);
+  border-bottom-right-radius: var(--radius-xl);
+}
+
+@utility rounded-t-2xl {
+  border-top-left-radius: var(--radius-2xl);
+  border-top-right-radius: var(--radius-2xl);
+}
+
+@utility rounded-b-2xl {
+  border-bottom-left-radius: var(--radius-2xl);
+  border-bottom-right-radius: var(--radius-2xl);
+}
+
+@utility rounded-l-2xl {
+  border-top-left-radius: var(--radius-2xl);
+  border-bottom-left-radius: var(--radius-2xl);
+}
+
+@utility rounded-r-2xl {
+  border-top-right-radius: var(--radius-2xl);
+  border-bottom-right-radius: var(--radius-2xl);
+}
+
+/* =============================================================================
+   SHADOW UTILITIES
+   ============================================================================= */
+
+@utility shadow-xs {
+  box-shadow: var(--shadow-xs);
+}
+
+@utility shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+@utility shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+@utility shadow-none {
+  box-shadow: none;
+}
+
+/* =============================================================================
+   SKIP-LINK UTILITIES
+   ============================================================================= */
+
+@utility skip-link-hidden {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 999;
+  width: fit-content;
+  overflow: hidden;
+  clip-path: inset(50%);
+
+  &:focus-visible {
+    overflow: visible;
+    clip-path: none;
+  }
+}
+
+/* =============================================================================
+   OPACITY UTILITIES
+   ============================================================================= */
+
+@utility opacity-60 {
+  opacity: 0.6;
+}
+
+
+/* ============================================================
+   SXA Container Styles
+   Styles applied via the Sitecore "Styles" rendering parameter.
+   Class names are driven by Sitecore style items under
+   /Presentation/Styles/ — CSS must exist here to take effect.
+   ============================================================ */
+
+@layer base {
+  /* container-wrapper — wraps centered containers */
+  .container-wrapper {
+    width: 100%;
+  }
+
+  /* Centered container — constrains to max-width with auto side margins */
+  .container-default.container {
+    max-width: var(--container-max-width);
+    margin-inline: auto;
+  }
+
+  /* Bordered container — adds a visible border + inner padding */
+  .container-default.sxa-bordered {
+    border: 1px solid var(--base-border);
+    padding: var(--spacing-6);
+  }
+
+  /* Indent top — adds space above the container */
+  .container-default.indent-top {
+    margin-block-start: var(--spacing-16);
+  }
+
+  /* Indent bottom — adds space below the container */
+  .container-default.indent-bottom {
+    margin-block-end: var(--spacing-16);
+  }
+
+  /* Indent side — adds horizontal gutters inside the container */
+  .container-default.indent,
+  .component.row-splitter > .container-fluid.indent {
+    padding-inline: var(--spacing-8);
+  }
+
+  /* Gray background — subtle muted background with consistent inner padding */
+  .container-default.container-gray-background,
+  .component.row-splitter > .container-fluid.container-gray-background {
+    background-color: var(--base-muted-background);
+    padding-block: var(--spacing-8);
+  }
+
+  /* Dark background — deep navy background with white text */
+  .container-default.container-dark-background,
+  .component.row-splitter > .container-fluid.container-dark-background {
+    background-color: var(--background-brand-dark);
+    color: var(--primary-foreground);
+    padding-block: var(--spacing-8);
+  }
+
+  /* Color background — primary brand blue background with white text */
+  .container-default.container-color-background,
+  .component.row-splitter > .container-fluid.container-color-background {
+    background-color: var(--primary-blue-500);
+    color: var(--primary-foreground);
+    padding-block: var(--spacing-8);
+  }
+
+  /* Clean background — white background override */
+  .container-default.container-clean-background,
+  .component.row-splitter > .container-fluid.container-clean-background {
+    background-color: var(--background);
+    padding-block: var(--spacing-8);
+  }
+}
+
+/* ============================================================
+   SXA Grid System
+   Bootstrap-compatible flex grid used by SXA renderings
+   (ColumnSplitter, RowSplitter, Container, etc.)
+   ============================================================ */
+
+@layer base {
+  /* Base component wrapper — every SXA rendering receives this class */
+  .component {
+    position: relative;
+    width: 100%;
+  }
+
+  /* Full-width fluid container */
+  .container-fluid {
+    width: 100%;
+    padding-inline: var(--container-padding-x);
+  }
+
+  /* Flex row — negative margin to counteract column padding */
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-inline: -0.5rem;
+
+    > * {
+      box-sizing: border-box;
+      padding-inline: 0.5rem;
+    }
+  }
+
+  /* 12-column grid — col-N spans N/12 of the row */
+  .col-1 {
+    flex: 0 0 auto;
+    width: calc(1 / 12 * 100%);
+  }
+  .col-2 {
+    flex: 0 0 auto;
+    width: calc(2 / 12 * 100%);
+  }
+  .col-3 {
+    flex: 0 0 auto;
+    width: calc(3 / 12 * 100%);
+  }
+  .col-4 {
+    flex: 0 0 auto;
+    width: calc(4 / 12 * 100%);
+  }
+  .col-5 {
+    flex: 0 0 auto;
+    width: calc(5 / 12 * 100%);
+  }
+  .col-6 {
+    flex: 0 0 auto;
+    width: calc(6 / 12 * 100%);
+  }
+  .col-7 {
+    flex: 0 0 auto;
+    width: calc(7 / 12 * 100%);
+  }
+  .col-8 {
+    flex: 0 0 auto;
+    width: calc(8 / 12 * 100%);
+  }
+  .col-9 {
+    flex: 0 0 auto;
+    width: calc(9 / 12 * 100%);
+  }
+  .col-10 {
+    flex: 0 0 auto;
+    width: calc(10 / 12 * 100%);
+  }
+  .col-11 {
+    flex: 0 0 auto;
+    width: calc(11 / 12 * 100%);
+  }
+  .col-12 {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  /* Fluid columns — equal-width */
+  .col {
+    flex: 1 0 0%;
+  }
+
+  /* Responsive variants — stack to full-width below md (768px) */
+  @media (max-width: 767px) {
+    .col-1,
+    .col-2,
+    .col-3,
+    .col-4,
+    .col-5,
+    .col-6,
+    .col-7,
+    .col-8,
+    .col-9,
+    .col-10,
+    .col-11 {
+      width: 100%;
+    }
+  }
+}
+
+/* ============================================================
+   Rich Text CKEditor Content Styles
+   Scoped to .rich-text .ck-content — only applies inside the
+   SXA RichText rendering component.
+   ============================================================ */
+
+@layer base {
+  .rich-text .ck-content {
+    /* --- Vertical rhythm ----------------------------------- */
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin-top: var(--spacing-6);
+      margin-bottom: var(--spacing-4);
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    p,
+    ul,
+    ol,
+    blockquote,
+    figure,
+    pre {
+      margin-bottom: var(--spacing-4);
+    }
+
+    :last-child {
+      margin-bottom: 0;
+    }
+
+    /* --- Lists --------------------------------------------- */
+
+    ul {
+      list-style-type: disc;
+      padding-left: var(--spacing-6);
+    }
+
+    ol {
+      list-style-type: decimal;
+      padding-left: var(--spacing-6);
+    }
+
+    li {
+      margin-bottom: var(--spacing-1);
+    }
+
+    ul ul,
+    ol ol,
+    ul ol,
+    ol ul {
+      margin-bottom: 0;
+      margin-top: var(--spacing-1);
+    }
+
+    /* --- Links --------------------------------------------- */
+
+    a {
+      color: var(--primary-blue-800);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+
+      &:hover {
+        color: var(--primary-blue-500);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--primary-blue-500);
+        outline-offset: 2px;
+        border-radius: 2px;
+      }
+    }
+
+    /* --- Horizontal rules ---------------------------------- */
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--base-border);
+      margin-block: var(--spacing-6);
+    }
+
+    /* --- Images -------------------------------------------- */
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-md);
+      margin-block: var(--spacing-4);
+    }
+
+    /* --- Bold / Italic ------------------------------------- */
+
+    strong,
+    b {
+      font-weight: var(--font-weight-bold);
+    }
+
+    em,
+    i {
+      font-style: italic;
+    }
+
+    /* --- Underline / Strikethrough -------------------------- */
+
+    u {
+      text-decoration: underline;
+    }
+
+    s,
+    del {
+      text-decoration: line-through;
+    }
+
+    /* --- h5 / h6 (not in global typography) ---------------- */
+
+    h5 {
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-base);
+    }
+
+    h6 {
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-sm);
+    }
+
+    /* --- Subscript / Superscript --------------------------- */
+
+    sub {
+      vertical-align: sub;
+      font-size: 0.75em;
+    }
+
+    sup {
+      vertical-align: super;
+      font-size: 0.75em;
+    }
+
+    /* --- Highlight (mark) ---------------------------------- */
+
+    mark {
+      background-color: var(--ui-yellow-500);
+      padding-inline: 0.125rem;
+    }
+
+    /* --- Figure (CKEditor image wrapper) ------------------- */
+
+    figure.image {
+      margin-block: var(--spacing-4);
+
+      > img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--radius-md);
+      }
+
+      > figcaption {
+        margin-top: var(--spacing-4);
+        text-align: center;
+        font-size: var(--text-sm);
+        color: var(--muted-foreground);
+      }
+    }
+  }
+}
+
+/* ============================================================
+   Blockquote Styles
+   Figma nodes 25372:25093 / 25094 / 25095
+   ============================================================ */
+
+@layer base {
+  blockquote,
+  .rich-text .ck-content blockquote {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin: 0;
+    padding-block: 1rem; /* 16px — from Figma */
+    padding-left: 2rem; /* 32px — text indent past quote mark */
+    border: none;
+    color: var(--color-base-foreground); /* #002F6B */
+    font-family: var(--font-sans);
+    font-size: var(--text-xl); /* 20px */
+    font-weight: var(--font-weight-semibold); /* 600 */
+    font-style: italic;
+    line-height: var(--leading-lg); /* 28px */
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 2.75rem; /* 44px */
+      height: 2.3125rem; /* 37px */
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NCAzNyIgZmlsbD0ibm9uZSI+PHBhdGggZD0iTS0wLjAwMjAyNTMgMjIuNzY3NEMtMC4xMTU2MjMgMTMuOTQwMyAzLjczNzIyIDYuMzc2ODIgMTEuNTY2IDEuMjE3MzVDMTQuNjE0Mi0xLjEyOTYgMTYuOTgwOCAwLjAyOTYyMzggMTcuOTc0NyAzLjgzMDM0QzE4Ljc0MTUgNy4xNDY0NyAxNS4wMDIzIDguMTI1MTYgMTMuMTE4NSAxMC40MTUxQzEwLjkyMjIgMTIuODM4IDcuNTMzMjYgMTguMjgyNiAxMS45MTYyIDIwLjEzNTRDMTguMjIwOSAyMS43ODg3IDIwLjU0MDEgMjguMjc4NSAxNi45ODA4IDMzLjY5NDVDMTQuNTE5NSAzNy4yODYyIDkuMDU3MzUgMzcuODk0MyA1LjUyNjM3IDM1LjgyMjlDMS4xODEyOCAzMy4yOTU0IDAuMTMwNTA1IDI3LjY5ODktMC4wMDIwMjUzIDIyLjk4NkwtMC4wMDIwMjUzIDIyLjc2NzRaTTI1LjM1ODYgMjIuNzY3NEMyNS4yNDUgMTMuOTQwMyAyOS4wODgzIDYuMzc2ODIgMzYuOTI2NSAxLjIxNzM1QzM5Ljk3NDctMS4xMjk2IDQyLjM0MTMgMC4wMjk2MjM4IDQzLjMzNTMgMy44MzAzNEM0NC4xMDIxIDcuMTQ2NDcgNDAuMzYyOSA4LjEyNTE2IDM4LjQ3OSAxMC40MTUxQzM2LjI4MjggMTIuODM4IDMyLjg5MzggMTguMjgyNiAzNy4yNzY4IDIwLjEzNTRDNDMuNTgxNSAyMS43ODg3IDQ1LjkwMDcgMjguMjc4NSA0Mi4zNDEzIDMzLjY5NDVDMzkuODgwMSAzNy4yODYyIDM0LjQxNzkgMzcuODk0MyAzMC44ODcgMzUuODIyOUMyNi41NTEzIDMzLjMwNDkgMjUuNTAwNiAyNy43MDg0IDI1LjM3NzUgMjIuOTk1NVYyMi43NzY5TDI1LjM1ODYgMjIuNzY3NFoiIGZpbGw9IiNFQkYzRkYiLz48L3N2Zz4K");
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  }
+}
+
+/* ============================================================
+  Table Component Styles
+   ============================================================
+   ALL table styles live here — both the React <Table> component
+   and Sitecore CKEditor rich-text tables are styled via CSS.
+   The React component is a thin wrapper with no Tailwind classes.
+
+   Sitecore loads an external content-styles.css (unlayered) that
+   sets grey borders and backgrounds on CKEditor tables. Because
+   unlayered CSS always beats @layer, the CKEditor overrides must
+   also sit OUTSIDE any layer.
+   ============================================================ */
+
+/* --- Base table styles (React component) -------------------- */
+
+@layer base {
+  table {
+    width: 100%;
+    caption-side: bottom;
+    border-collapse: collapse;
+    font-size: var(--text-base);
+  }
+
+  /* Scroll-fade indicators — auto-appear when content overflows.
+     Uses background-attachment: local (moves with content) to cover
+     the fixed scroll shadow. When scrolled, the cover slides away
+     and reveals the shadow on that side. */
+  [data-slot="table-wrapper"] {
+    background:
+      /* Left cover — hides left shadow when at scroll start */
+      linear-gradient(to right, var(--base-background, #FFFFFF), transparent)
+        left center / 40px 100% no-repeat local,
+      /* Right cover — hides right shadow when at scroll end */
+      linear-gradient(to left, var(--base-background, #FFFFFF), transparent)
+        right center / 40px 100% no-repeat local,
+      /* Left shadow — fixed, revealed when scrolled right */
+      linear-gradient(to right, color-mix(in srgb, var(--base-foreground) 8%, transparent), transparent)
+        left center / 24px 100% no-repeat scroll,
+      /* Right shadow — fixed, revealed when scrollable to the right */
+      linear-gradient(to left, color-mix(in srgb, var(--base-foreground) 8%, transparent), transparent)
+        right center / 24px 100% no-repeat scroll;
+  }
+
+  thead th {
+    height: var(--h-10);
+    min-width: 85px;
+    padding-inline: var(--spacing-4);
+    padding-block: var(--spacing-3);
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--base-foreground);
+    transition-property: color, background-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  tr {
+    border-bottom: 1px solid var(--base-border);
+    transition-property: color, background-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  thead tr:hover {
+    background-color: var(--background-brand-subtle);
+  }
+
+  tbody tr:hover {
+    background-color: color-mix(in srgb, var(--background-brand-subtle) 50%, transparent);
+  }
+
+  tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  tbody td,
+  tbody th,
+  tfoot td {
+    height: 52px;
+    min-width: 85px;
+    padding-inline: var(--spacing-4);
+    padding-block: var(--spacing-3);
+    vertical-align: middle;
+    font-size: var(--text-base);
+    color: var(--base-muted-foreground);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* CKEditor "header column" — keep semibold but use body colours */
+  tbody th {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  tfoot {
+    font-weight: var(--font-weight-semibold);
+    background-color: var(--base-muted);
+    color: var(--base-foreground);
+  }
+
+  tfoot tr {
+    border-bottom: none;
+  }
+
+  tfoot td {
+    color: var(--base-foreground);
+  }
+
+  caption {
+    margin-top: var(--spacing-4);
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--muted-foreground);
+  }
+}
+
+/* --- CKEditor content-styles.css overrides (unlayered) ------ */
+
+/* Scroll-fade indicators + auto-applied sticky headers for CKEditor tables */
+.rich-text .ck-content figure.table {
+  /* Sitecore content-styles.css sets display:table on .ck-content .table — browsers
+     ignore overflow on display:table elements, so the scroll container never forms.
+     Override to block so overflow-x/y actually create a scrollable region. */
+  display: block;
+  overflow-x: auto;
+  max-height: var(--table-max-height, 70vh);
+  overflow-y: auto;
+  background:
+    linear-gradient(to right, var(--base-background, #FFFFFF), transparent)
+      left center / 40px 100% no-repeat local,
+    linear-gradient(to left, var(--base-background, #FFFFFF), transparent)
+      right center / 40px 100% no-repeat local,
+    linear-gradient(to right, color-mix(in srgb, var(--base-foreground) 8%, transparent), transparent)
+      left center / 24px 100% no-repeat scroll,
+    linear-gradient(to left, color-mix(in srgb, var(--base-foreground) 8%, transparent), transparent)
+      right center / 24px 100% no-repeat scroll;
+}
+
+.rich-text .ck-content figure.table > table {
+  border: none;
+  min-width: 100%;
+  caption-side: bottom;
+  border-collapse: collapse;
+  font-size: var(--text-base);
+  /* Override Sitecore content-styles.css which sets overflow:hidden on .ck-content .table table.
+     That overflow:hidden creates an intermediate scroll container that traps position:sticky
+     on thead th, preventing the sticky header from working. */
+  overflow: visible;
+  /* Override .ck-content .table .ck-table-resized { table-layout: fixed }.
+     Fixed layout ignores min-width on cells, squishing 11 columns to ~34px on mobile
+     instead of the 85px minimum. Auto layout lets cells grow to min-width, triggering
+     horizontal scroll on the figure.table scroll container. */
+  table-layout: auto;
+}
+
+.rich-text .ck-content figure.table table td,
+.rich-text .ck-content figure.table table th {
+  border: none;
+  border-bottom: 1px solid var(--base-border);
+  padding-inline: var(--spacing-4);
+  padding-block: var(--spacing-3);
+}
+
+.rich-text .ck-content figure.table table th {
+  background: transparent;
+  height: var(--h-10);
+  min-width: 85px;
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--base-foreground);
+}
+
+/* Sticky header — auto-applied to all RichText tables. The figure.table
+   scroll container (above) provides the sticky boundary. Override
+   --table-max-height on the figure or an ancestor to change the height. */
+.rich-text .ck-content figure.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: var(--base-background, #FFFFFF);
+}
+
+.rich-text .ck-content figure.table table td {
+  height: 52px;
+  min-width: 85px;
+  vertical-align: middle;
+  font-size: var(--text-base);
+  color: var(--base-muted-foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* CKEditor "header column" — tbody th gets body cell sizing + semibold */
+.rich-text .ck-content figure.table tbody th {
+  height: 52px;
+  color: var(--base-muted-foreground);
+  font-weight: var(--font-weight-semibold);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rich-text .ck-content figure.table thead tr:hover {
+  background-color: var(--background-brand-subtle);
+}
+
+.rich-text .ck-content figure.table tbody tr:hover {
+  background-color: color-mix(in srgb, var(--background-brand-subtle) 50%, transparent);
+}
+
+.rich-text .ck-content figure.table tbody tr:last-child td,
+.rich-text .ck-content figure.table tbody tr:last-child th {
+  border-bottom: none;
+}
+
+.rich-text .ck-content figure.table tfoot {
+  font-weight: var(--font-weight-semibold);
+  background-color: var(--base-muted);
+  color: var(--base-foreground);
+}
+
+.rich-text .ck-content figure.table tfoot tr {
+  border-bottom: none;
+}
+
+.rich-text .ck-content figure.table tfoot td {
+  color: var(--base-foreground);
+}
+
+.rich-text .ck-content figure.table figcaption {
+  margin-top: var(--spacing-4);
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--muted-foreground);
+}
+
+/* ============================================================
+   SXA Column Splitter Styles
+   Applied to the outer .row.column-splitter wrapper and its
+   direct column children.
+   ============================================================ */
+
+@layer base {
+  .row.column-splitter {
+    @apply mx-0 max-w-none;
+    padding-inline: 2.5px;
+    margin-block: var(--spacing-2) var(--spacing-5);
+
+    > div {
+      padding-inline: 5px;
+      padding-block: 5px;
+      min-height: 2rem;
+
+      > .row {
+        border: 1px solid var(--color-neutrals-gray-300);
+        border-radius: 10px;
+        background: var(--color-neutrals-white);
+        min-height: 100%;
+      }
+
+      .component.rich-text {
+        height: 100%;
+      }
+
+      .component.rich-text > .component-content,
+      .component.rich-text > .component-content > div,
+      .component.rich-text .ck-content {
+        height: 100%;
+      }
+
+      .component.rich-text .ck-content {
+        padding: var(--spacing-3);
+      }
+    }
+
+    > div:nth-child(odd) > .row {
+      border-color: #bfd8ff;
+    }
+
+    > div:nth-child(even) > .row {
+      border-color: #bfeac8;
+    }
+  }
+}
+
+/* ============================================================
+   SXA Row Splitter Styles
+   Applied to the outer .component.row-splitter wrapper and
+   each .container-fluid row child.
+   ============================================================ */
+
+@layer base {
+  .component.row-splitter {
+    width: 100%;
+
+    > .container-fluid {
+      padding-block: var(--spacing-4);
+      min-height: 2rem;
+    }
+  }
+}
+
+/* ============================================================
+   Reduced Motion
+   Respects prefers-reduced-motion: reduce (WCAG 2.3.3 AAA).
+   Disables accordion expand/collapse height animations and
+   chevron rotation transitions for users who opt out of motion.
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="accordion-content"] {
+    animation: none;
+  }
+
+  [data-slot="accordion-trigger"] svg {
+    transition: none;
+  }
+}
+
+/* ============================================================
+   Focus Ring Utilities
+   Consistent focus-visible outline rings across all interactive
+   components. Uses CSS outline which follows border-radius in
+   modern browsers (Chrome 94+, Firefox 88+, Safari 16.4+) and
+   avoids Tailwind's composite box-shadow variable conflicts.
+   ============================================================ */
+
+@utility focus-ring-blue {
+  &:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--primary-blue-500) 50%, transparent);
+    outline-offset: 0px;
+  }
+}
+
+@utility focus-ring-blue-contrast {
+  &:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--primary-blue-500) 50%, white);
+    outline-offset: 0px;
+  }
+}
+
+@utility focus-ring-red {
+  &:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--ui-red-600) 50%, transparent);
+    outline-offset: 0px;
+  }
+}

@@ -1,0 +1,86 @@
+name: CI-CD - PUBLIC WEBSITE (TEST)
+permissions:
+  # Required because the called build/deploy reusable workflows upload and download artifacts.
+  actions: write
+  contents: read  
+  
+on:
+  workflow_dispatch:
+  create: # Triggers when the test branch is (re-)created after deletion
+  push:
+    branches: [ test ]
+    paths:
+      - .github/workflows/CI-CD_PUBLIC_WEBSITE_TEST.yml
+      - .github/workflows/build_NextJs.yml
+      - .github/workflows/deploy_vercel.yml
+      - 'apps/sitecore-rendering/**'
+      - 'apps/storybook/**'
+      - 'packages/ui/**'
+      - 'vercel.json'
+      - 'package.json'
+      - 'package-lock.json'
+
+jobs:
+  build-sandbox-site:
+    if: github.event_name != 'create' || github.ref == 'refs/heads/test'
+    uses: ./.github/workflows/build_NextJs.yml
+    with:
+      workingDirectory: .
+      artifactName: sandbox-website-prebuilt-test
+      environment: test
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      NEXUS_NPM_AUTH: ${{ secrets.NEXUS_NPM_AUTH }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.RENDERING_VERCEL_PROJECT_ID }}
+
+  build-public-site:
+    if: github.event_name != 'create' || github.ref == 'refs/heads/test'
+    uses: ./.github/workflows/build_NextJs.yml
+    with:
+      workingDirectory: .
+      artifactName: public-website-prebuilt-test
+      environment: test
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      NEXUS_NPM_AUTH: ${{ secrets.NEXUS_NPM_AUTH }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.PUBLIC_SITE_RENDERING_VERCEL_PROJECT_ID }}
+
+  approve-deployment:
+    name: Await approval to deploy to Test
+    runs-on: ubuntu-latest
+    needs: [ build-public-site, build-sandbox-site ]
+    if: needs.build-public-site.result == 'success' && needs.build-sandbox-site.result == 'success'
+    environment: test
+    steps:
+      - name: Deployment approved
+        run: echo "Deployment to Test environment approved"
+
+  deploy-sandbox-site:
+    uses: ./.github/workflows/deploy_vercel.yml
+    needs: approve-deployment
+    if: needs.approve-deployment.result == 'success'
+    with:
+      artifactName: sandbox-website-prebuilt-test
+      environment: test
+    secrets:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.RENDERING_VERCEL_PROJECT_ID }}
+
+  deploy-public-site:
+    uses: ./.github/workflows/deploy_vercel.yml
+    needs: approve-deployment
+    if: needs.approve-deployment.result == 'success'
+    with:
+      artifactName: public-website-prebuilt-test
+      environment: test
+    secrets:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.PUBLIC_SITE_RENDERING_VERCEL_PROJECT_ID }}

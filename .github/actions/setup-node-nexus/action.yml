@@ -1,0 +1,24 @@
+name: Setup Node.js with Nexus NPM Registry
+description: Sets up Node.js using the .nvmrc version and configures .npmrc for the internal Nexus registry
+
+inputs:
+  nexus-npm-auth:
+    description: Base64-encoded username:password for the Nexus npm registry
+    required: true
+  registry-url:
+    description: Nexus npm registry URL (e.g. https://nexus.example.com/repository/npm-group/)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: .nvmrc
+        cache: npm
+    - name: Setup Nexus NPM registry
+      uses: ./.github/actions/setup-nexus-npm
+      with:
+        nexus-npm-auth: ${{ inputs.nexus-npm-auth }}
+        registry-url: ${{ inputs.registry-url }}
