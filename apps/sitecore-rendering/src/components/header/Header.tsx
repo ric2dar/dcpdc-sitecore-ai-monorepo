@@ -14,22 +14,31 @@ interface HeaderProps extends ComponentProps {
 }
 
 export const Default = ({ params, fields }: HeaderProps): JSX.Element => {
+
+  if (!fields) {
+    return <p>Header data source is missing.</p>;
+  }
+
+  // Cast fields to the defined interface
+  const fields1 = fields as HeaderFields;
+
+
+
   const { styles = '', RenderingIdentifier: id } = params;
 
+  
   return (
     <header className={`component header ${styles}`.trim()} id={id}>
+        {fields ? (
       <div className="component-content">
-        {fields?.Title ? (
-          <Text tag="h1" field={fields.Title} />
-        ) : (
-          <h1>Header</h1>
-        )}
-        {fields?.Subtitle ? (
-          <Text tag="p" field={fields.Subtitle} />
-        ) : (
-          <p>Page header content goes here.</p>
-        )}
+          <Text tag="h1" field={fields1.Title} />
+          <Text tag="p" field={fields1.Subtitle} />
       </div>
+        ) : (
+      <div className="component-content">
+          <h1>NO DATASOURCE</h1>
+      </div>
+        )}
     </header>
   );
 };
